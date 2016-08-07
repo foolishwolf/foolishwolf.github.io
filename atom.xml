@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2016-02-18T20:42:50+08:00</updated>
+  <updated>2016-08-07T23:37:47+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How I Posted the First Blog on Github]]></title>
+    <link href="http://foolishwolf.github.io/blog/2016/08/04/how-i-posted-my-first-blog-on-github/"/>
+    <updated>2016-08-04T18:17:34+08:00</updated>
+    <id>http://foolishwolf.github.io/blog/2016/08/04/how-i-posted-my-first-blog-on-github</id>
+    <content type="html"><![CDATA[<h1>How I Posted the First Blog on Github</h1>
+
+<h2>1. Octopress</h2>
+
+<h3>What is Octopress</h3>
+
+<p>Octopress is a blogging tool build with Ruby, and can be downloaded from Github.</p>
+
+<h3>How to build the Octopress</h3>
+
+<p>Here is the building process on Ubuntu, and it seems similar on other OS.</p>
+
+<h4>Install Git</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo apt-get install git</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install Ruby</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo apt-get install ruby ruby-dev</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Download Octopress</h4>
+
+<p>Clone the octopress to local directory <em>octopress</em>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$git clone git://github.com/imathis/octopress.git octopress</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install the dependencies:</h4>
+
+<p>Enter the diroctory of octopress:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$cd ocopress</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And type in following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$gem install bundler 
+</span><span class='line'>$rbenv rehash 
+</span><span class='line'>$bundle install </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install Default Theme of Octopress</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Initiation and commit source</h3>
+
+<p>Before posting a new blog to Github, a respository with the name <em>yourname.github.io</em> is expected to bulid.
+Then run the setup:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Follow the instuctions and type in what they ask.
+Finally, generate and deploy your blog site onto Github:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$rake generate
+</span><span class='line'>$rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The source for your blog should also be committed:
+```
+$git add .</p>
+]]></content>
+  </entry>
   
 </feed>

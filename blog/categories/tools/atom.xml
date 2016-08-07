@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tools | My Octopress Blog]]></title>
+  <link href="http://foolishwolf.github.io/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://foolishwolf.github.io/"/>
+  <updated>2016-08-07T23:37:47+08:00</updated>
+  <id>http://foolishwolf.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How I Posted the First Blog on Github]]></title>
+    <link href="http://foolishwolf.github.io/blog/2016/08/04/how-i-posted-my-first-blog-on-github/"/>
+    <updated>2016-08-04T18:17:34+08:00</updated>
+    <id>http://foolishwolf.github.io/blog/2016/08/04/how-i-posted-my-first-blog-on-github</id>
+    <content type="html"><![CDATA[<h1>How I Posted the First Blog on Github</h1>
+
+<h2>1. Octopress</h2>
+
+<h3>What is Octopress</h3>
+
+<p>Octopress is a blogging tool build with Ruby, and can be downloaded from Github.</p>
+
+<h3>How to build the Octopress</h3>
+
+<p>Here is the building process on Ubuntu, and it seems similar on other OS.</p>
+
+<h4>Install Git</h4>
+
+<pre><code>$sudo apt-get install git
+</code></pre>
+
+<h4>Install Ruby</h4>
+
+<pre><code>$sudo apt-get install ruby ruby-dev
+</code></pre>
+
+<h4>Download Octopress</h4>
+
+<p>Clone the octopress to local directory <em>octopress</em>:
+<code>
+$git clone git://github.com/imathis/octopress.git octopress
+</code></p>
+
+<h4>Install the dependencies:</h4>
+
+<p>Enter the diroctory of octopress:
+<code>
+$cd ocopress
+</code>
+And type in following command:
+<code>
+$gem install bundler
+$rbenv rehash
+$bundle install
+</code></p>
+
+<h4>Install Default Theme of Octopress</h4>
+
+<pre><code>$rake install
+</code></pre>
+
+<h3>Initiation and commit source</h3>
+
+<p>Before posting a new blog to Github, a respository with the name <em>yourname.github.io</em> is expected to bulid.
+Then run the setup:
+<code>
+$rake setup_github_pages
+</code>
+Follow the instuctions and type in what they ask.
+Finally, generate and deploy your blog site onto Github:
+<code>
+$rake generate
+$rake deploy
+</code>
+The source for your blog should also be committed:
+```
+$git add .</p>
+]]></content>
+  </entry>
+  
+</feed>
