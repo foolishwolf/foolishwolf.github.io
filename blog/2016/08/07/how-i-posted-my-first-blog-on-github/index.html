@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="How I Posted My First Blog on Github 1. Octopress What is Octopress Octopress is a blogging tool build with Ruby, and can be downloaded from Github. &hellip;">
+  <meta name="description" content="How I Posted My First Blog on Github This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +84,9 @@
   </header>
 
 
-<div class="entry-content"><p>How I Posted My First Blog on Github</p>
+<div class="entry-content"><h1>How I Posted My First Blog on Github</h1>
+
+<p>This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style document editor - Sublime Text is also introduced.</p>
 
 <h2>1. Octopress</h2>
 
@@ -118,7 +120,7 @@
 
 <h4>Install the dependencies</h4>
 
-<p>Enter the diroctory of octopress:</p>
+<p>Enter the directory of octopress:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$cd ocopress</span></code></pre></td></tr></table></div></figure>
@@ -149,7 +151,7 @@ Then run the setup:</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Follow the instuctions and type in what they ask.
+<p>Follow the instructions and type in the answers of what they ask.
 Finally, generate and deploy your blog site onto Github:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -188,14 +190,19 @@ Finally, generate and deploy your blog site onto Github:</p>
 
 <h2>2. Local Markdown editor - Sublime Text</h2>
 
-<p>After the Octopress is build, what we need now is a powerful editor helping to write an markdown-style document gracefully. And Sublime Text is just one perfect choice.</p>
+<p>After the Octopress is build, what we need now is a powerful editor helping to write a markdown-style document gracefully. And Sublime Text is just one perfect choice.</p>
 
 <h3>Installation</h3>
 
-<p>Sublime Text is a cross platform and sophisticated text editor for code, markup and prose. Once being installed and it can be evaluated for free. However, such a powerful editor does not directly enable markdown-style editing. Therefore, it is necessary to add markdown packages into Sublime Text.
-Steps:
-- Use <code>Ctrl+`</code> to call the console.
-- Copy following code into the command line of console:</p>
+<p>Sublime Text is a cross platform and sophisticated text editor for code, markup and prose. Once being installed and it can be evaluated for free. However, such a powerful editor does not directly enable markdown-style editing. Therefore, it is necessary to add markdown packages into Sublime Text.</p>
+
+<p>Steps:</p>
+
+<ul>
+<li>Use <code>Ctrl+`</code> to call the console.</li>
+<li>Copy following code into the command line of console:</li>
+</ul>
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span><span class="nn">os</span><span class="p">;</span> <span class="n">pf</span><span class="o">=</span><span class="s">&#39;Package Control.sublime-package&#39;</span><span class="p">;</span> <span class="n">ipp</span> <span class="o">=</span> <span class="n">sublime</span><span class="o">.</span><span class="n">installed_packages_path</span><span class="p">();</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span> <span class="n">ipp</span> <span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span><span class="p">;</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">ProxyHandler</span><span class="p">(</span> <span class="p">)));</span> <span class="nb">open</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">ipp</span><span class="p">,</span> <span class="n">pf</span><span class="p">),</span> <span class="s">&#39;wb&#39;</span> <span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span> <span class="s">&#39;http://sublime.wbond.net/&#39;</span> <span class="o">+</span><span class="n">pf</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span> <span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;%20&#39;</span> <span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">());</span> <span class="k">print</span><span class="p">(</span> <span class="s">&#39;Please restart Sublime Text to finish installation&#39;</span><span class="p">)</span>
