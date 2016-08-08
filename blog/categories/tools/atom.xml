@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | My Octopress Blog]]></title>
   <link href="http://foolishwolf.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2016-08-08T00:28:05+08:00</updated>
+  <updated>2016-08-08T08:55:48+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -65,7 +65,7 @@ $bundle install
 <pre><code>$rake install
 </code></pre>
 
-<h3>Initiation and commit source</h3>
+<h3>Initiate blog pages and commit source</h3>
 
 <p>Before posting a new blog to Github, a respository with the name <em>yourname.github.io</em> is expected to bulid.
 Then run the setup:
