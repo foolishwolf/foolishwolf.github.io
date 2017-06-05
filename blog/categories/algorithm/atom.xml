@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Algorithm | Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T20:27:03+08:00</updated>
+  <updated>2017-06-05T20:34:14+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -26,6 +26,11 @@
 <strong>现在任意给定进行上述操作后的结果数列D[n]，求该数列在进行操作前的原数列S[n]是什么？</strong><br/>
 <strong>输入：</strong> <em>n, D[n]</em><br/>
 <strong>输出：</strong> <em>S[n]</em></p>
+
+<!--more-->
+
+
+<p> </p>
 
 <h2>解题思路：</h2>
 

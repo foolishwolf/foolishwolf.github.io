@@ -4,7 +4,7 @@
   <title><![CDATA[Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T20:27:03+08:00</updated>
+  <updated>2017-06-05T20:34:14+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -18,12 +18,15 @@
     <link href="http://foolishwolf.github.io/blog/2017/06/03/getting-newest-version-from-tfs-after-specific-date/"/>
     <updated>2017-06-03T15:36:31+08:00</updated>
     <id>http://foolishwolf.github.io/blog/2017/06/03/getting-newest-version-from-tfs-after-specific-date</id>
-    <content type="html"><![CDATA[<h3>背景介绍</h3>
-
-<p>对于迭代开发的版本管理来说，最经常的事情，就是整理每次迭代的版本。特别是时间紧张的时候，每天可能都需要下发版本进行测试。<br/>
+    <content type="html"><![CDATA[<p>对于迭代开发的版本管理来说，最经常的事情，就是整理每次迭代的版本。特别是时间紧张的时候，每天可能都需要下发版本进行测试。<br/>
 之前各开发人员填写版本下发清单，然后根据清单来整理版本和部署执行码，难免会有漏填的情况。而每次迭代增加新的目录，也过于繁琐。<br/>
 其实对于每个增量版本来说，起始时间都是上次版本的结束时间。在当前版本开发结束后，版本管理员可以暂时锁定TFS，禁止开发人员签入，然后以上次版本的结束时间为起点，获取TFS上签入的所有执行文件，这些文件就是当前版本的全部增量集。<br/>
 然而，VS的IDE中，并没有实现这一功能，所以只能利用TFS的API来编码实现。</p>
+
+<!--more-->
+
+
+<p> </p>
 
 <h3>程序实现</h3>
 
@@ -299,9 +302,12 @@
     <link href="http://foolishwolf.github.io/blog/2016/11/20/using-paython-to-find-comments-in-code/"/>
     <updated>2016-11-20T18:19:19+08:00</updated>
     <id>http://foolishwolf.github.io/blog/2016/11/20/using-paython-to-find-comments-in-code</id>
-    <content type="html"><![CDATA[<h2>Python实现判断一行代码是否为注释</h2>
+    <content type="html"><![CDATA[<p>目前的编辑器大都可以自动检测某一行代码是否为代码行或注释行，但并不太提供代码行/注释行行数的统计，对于大量代码文件的代码行/注释行统计，就更少见一些。本篇文章试用一段Python脚本来实现这一目标，并希望可以兼容统计不同语言编写的代码。</p>
 
-<p>目前的编辑器大都可以自动检测某一行代码是否为代码行或注释行，但并不太提供代码行/注释行行数的统计，对于大量代码文件的代码行/注释行统计，就更少见一些。本篇文章试用一段Python脚本来实现这一目标，并希望可以兼容统计不同语言编写的代码。</p>
+<!--more-->
+
+
+<p> </p>
 
 <h3>注释符号的研究</h3>
 
@@ -580,6 +586,11 @@
 <strong>输入：</strong> <em>n, D[n]</em><br/>
 <strong>输出：</strong> <em>S[n]</em></p>
 
+<!--more-->
+
+
+<p> </p>
+
 <h2>解题思路：</h2>
 
 <p>初看此题，第一反应肯定是总结归纳逆向的逻辑，倒也比较直观了。<br/>
@@ -632,6 +643,11 @@
 <p>升级Win10到最新的1607，然后在“程序与功能-启用或关闭Windows功能”中选择安装beta版的内置Linux bash功能。重启之后，Cmd或PowerShell中键入bash，根据提示从应用商店中下载子系统。该系统目前的版本为Ubuntu 14.04，系统加载后，硬盘中的各个盘符会自动挂载到/mnt/下，如/mnt/c等，也可以使用apt-get等工具直接从源上下载Ubuntu上运行的项目或组件。
 当然这个方法的前提是你使用的是Win10系统，而且目前来看beta版还是有一些小问题，特别是在某些小的交互操作上，不能很好地与Ubuntu的bash相匹配。</p>
 
+<!--more-->
+
+
+<p> </p>
+
 <h2>2. Cygwin</h2>
 
 <p>不是很推荐，官网上是这样描述的：</p>
@@ -681,6 +697,11 @@
     <updated>2016-08-07T23:46:50+08:00</updated>
     <id>http://foolishwolf.github.io/blog/2016/08/07/how-i-posted-my-first-blog-on-github</id>
     <content type="html"><![CDATA[<p>This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style document editor - Sublime Text is also introduced.</p>
+
+<!--more-->
+
+
+<p> </p>
 
 <h2>1. Octopress</h2>
 
