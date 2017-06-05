@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2016-08-08T14:20:48+08:00</updated>
+  <updated>2017-06-05T10:30:03+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,9 +18,7 @@
     <link href="http://foolishwolf.github.io/blog/2016/08/07/how-i-posted-my-first-blog-on-github/"/>
     <updated>2016-08-07T23:46:50+08:00</updated>
     <id>http://foolishwolf.github.io/blog/2016/08/07/how-i-posted-my-first-blog-on-github</id>
-    <content type="html"><![CDATA[<h1>How I Posted My First Blog on Github</h1>
-
-<p>This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style document editor - Sublime Text is also introduced.</p>
+    <content type="html"><![CDATA[<p>This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style document editor - Sublime Text is also introduced.</p>
 
 <h2>1. Octopress</h2>
 
