@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
+  <title>从TFS获取指定日期后的最新版本文件 - My Octopress Blog</title>
   <meta name="author" content="Your Name">
 
   
@@ -20,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://foolishwolf.github.io/">
+  <link rel="canonical" href="http://foolishwolf.github.io/blog/2017/06/05/cong-tfshuo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
@@ -65,15 +65,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/06/05/cong-tfshuo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian/">从TFS获取指定日期后的最新版本文件</a></h1>
+      <h1 class="entry-title">从TFS获取指定日期后的最新版本文件</h1>
     
     
       <p class="meta">
@@ -89,7 +86,7 @@
   </header>
 
 
-  <div class="entry-content"><h3>背景介绍</h3>
+<div class="entry-content"><h3>背景介绍</h3>
 
 <p>对于迭代开发的版本管理来说，最经常的事情，就是整理每次迭代的版本。特别是时间紧张的时候，每天可能都需要下发版本进行测试。
 之前各开发人员填写版本下发清单，然后根据清单来整理版本和部署执行码，难免会有漏填的情况。而每次迭代增加新的目录，也过于繁琐。
@@ -102,180 +99,44 @@
 /*     程序功能：按起始时间从TFS上获取某一路径下签入文件的最新版本     可选输入：起始时间（格式：2017-01-01 或 2017-01-01 10:10:10），默认为当天的0点 */
 using System; using System.IO; using System.Configuration; using Microsoft.TeamFoundation.Client; using Microsoft.TeamFoundation.VersionControl.Client;  namespace TfsFetch {     class Program     {         //private System.Net.NetworkCredential netCred;         private TfsTeamProjectCollection tfsTeamProjCol;         private VersionControlServer vcs;         //private Workspace ws;          public Program()         {             string serverUrl = ConfigurationManager.AppSettings.Get("serverUrl");             tfsTeamProjCol = new TfsTeamProjectCollection(new Uri(serverUrl));             vcs = tfsTeamProjCol.GetService&lt;VersionControlServer&gt;();             //ws = vcs.GetWorkspace(workSpacePath);         }          //获取签入文件的最新版本         //startTime: 签入时间的最早边界         public void GetLatestItems(DateTime startTime)         {             string tfsVerPath = ConfigurationManager.AppSettings.Get("tfsVerPath");             ItemSet itemSet = vcs.GetItems(tfsVerPath, RecursionType.Full);             string localRootPathWithDate =                 ConfigurationManager.AppSettings.Get("localRootPath") + "/" +                 DateTime.Now.ToString("yyyyMMdd");             string histLocalRootpath = ConfigurationManager.AppSettings.Get("histLocalRootpath");             string histLocalRootpathWithDate = histLocalRootpath + "/" +                 DateTime.Now.ToString("yyyyMMdd_hhmmss");             if (Directory.Exists(localRootPathWithDate))             //这里的前提是，实际开发中每天最多发一个版本进行测试，所以如果当天已经下载过版本，则需要将当天已下载的版本移到历史版本库中，以最新下载的为准             {                 try                 {                     if(!Directory.Exists(histLocalRootpath))                     {                         Directory.CreateDirectory(histLocalRootpath);                     }                     Directory.Move(localRootPathWithDate, histLocalRootpathWithDate);                 }                 catch (Exception)                 {                     Console.WriteLine("Error: Moving folder failed");                 }             }              int dlCount = 0;             foreach(Item item in itemSet.Items)             {                 string excludedFolder =                     tfsVerPath + "/" +                     ConfigurationManager.AppSettings.Get("excludedSubFolder");                 if (item.CheckinDate &gt;= startTime &amp;&amp;                     item.ServerItem.LastIndexOf(excludedFolder) == -1                     )                 {                     Console.WriteLine(item.ServerItem);                     Console.Write("Check-in time: " + item.CheckinDate);                     string localPath =                         localRootPathWithDate + "/" +                         item.ServerItem.Substring(tfsVerPath.Length);                     int folderLastIdx = localPath.LastIndexOf('/');                     string folderPath = localPath.Substring(0, folderLastIdx);                      if (! Directory.Exists(folderPath))                     {                         Directory.CreateDirectory(folderPath);                     }                     Console.Write("    ");                     try                     {                         item.DownloadFile(localPath);                         Console.WriteLine("Type: File");                         dlCount++;                     }                     catch (Exception)                     {                         Console.Write("Type: Directory\n");                     }                     Console.WriteLine("");                 }             }             Console.WriteLine("\nDownloaded files count: " + dlCount);         }          static void Main(string[] args)         {             string startTimeStr = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";             DateTime startTime = DateTime.Parse(startTimeStr);             if (args.Length &lt; 1 || args[0] == "/help")             {                 Console.WriteLine(                     "Example:\n" +                     "\tTfsFetch [dateTime]\n" +                     "\tdateTime: 2017-01-01 || 2017-01-01 12:30:30\n\n" +                     "\tDefault start time: " + startTimeStr + "\n"                     );             }             else if(args.Length &gt;= 1 &amp;&amp; args[0] != "/help")             {                 switch (args.Length)                 {                     case 1:                         startTimeStr = args[0];                         break;                     case 2:                         startTimeStr = args[0] + " " + args[1];                         break;                     default:                         break;                 }              }             try             {                 startTime = DateTime.Parse(startTimeStr);             }             catch(Exception)             {                 Console.WriteLine("Error: Wrong time format");                 Console.ReadKey();                 return;             }             Console.WriteLine("Downloaded list:\n");             Program prog = new Program();             prog.GetLatestItems(startTime);              Console.ReadKey();         }     } }</code></p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-06-05T10:34:31+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:34 am</span></time>
+      
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2016/08/07/how-i-posted-my-first-blog-on-github/">How I Posted My First Blog on Github</a></h1>
+      <div class="sharing">
+  
+  
+  
+</div>
+
     
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-07T23:46:50+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:46 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This blog is mainly about how to post a blog on Github with Octopress, and the setup of a Markdown-style document editor - Sublime Text is also introduced.</p>
-
-<h2>1. Octopress</h2>
-
-<h3>What is Octopress</h3>
-
-<p>Octopress is a blogging tool build with Ruby, and can be downloaded from Github.</p>
-
-<h3>How to build the Octopress</h3>
-
-<p>Here is the building process on Ubuntu, and it seems similar on other OS.</p>
-
-<h4>Install Git</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo apt-get install git</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Install Ruby</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$sudo apt-get install ruby ruby-dev</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Download Octopress</h4>
-
-<p>Clone the octopress to local directory <em>octopress</em>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$git clone git://github.com/imathis/octopress.git octopress</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Install the dependencies</h4>
-
-<p>Enter the directory of octopress:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$cd ocopress</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And type in following command:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$gem install bundler 
-</span><span class='line'>$rbenv rehash 
-</span><span class='line'>$bundle install </span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Install default theme of Octopress</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$rake install</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Initiate blog pages and commit source</h3>
-
-<p>Before posting a new blog to Github, a respository with the name <em>yourname.github.io</em> is expected to bulid.
-Then run the setup:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Follow the instructions and type in the answers of what they ask.
-Finally, generate and deploy your blog site onto Github:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$rake generate
-</span><span class='line'>$rake deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The source for your blog should also be committed:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$git add .
-</span><span class='line'>$git commit -m 'your comments'
-</span><span class='line'>$git push origin source</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Posting a new blog</h3>
-
-<p>Use command <code>rake new_post[]</code> to create a new blog file in <em>source/_post</em>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$rake new_post['Title of Your New Blog']</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Everytime before posting a new blog, command:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$rake generate
-</span><span class='line'>$rake deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>should be run to generate the formatted blog and deploy it to Github.</p>
-
-<h2>2. Local Markdown editor - Sublime Text</h2>
-
-<p>After the Octopress is build, what we need now is a powerful editor helping to write a markdown-style document gracefully. And Sublime Text is just one perfect choice.</p>
-
-<h3>Installation</h3>
-
-<p>Sublime Text is a cross platform and sophisticated text editor for code, markup and prose. Once being installed and it can be evaluated for free. However, such a powerful editor does not directly enable markdown-style editing. Therefore, it is necessary to add markdown packages into Sublime Text.</p>
-
-<p>Steps:</p>
-
-<ul>
-<li>Use <code>Ctrl+`</code> to call the console.</li>
-<li>Copy following code into the command line of console:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span><span class="nn">os</span><span class="p">;</span> <span class="n">pf</span><span class="o">=</span><span class="s">&#39;Package Control.sublime-package&#39;</span><span class="p">;</span> <span class="n">ipp</span> <span class="o">=</span> <span class="n">sublime</span><span class="o">.</span><span class="n">installed_packages_path</span><span class="p">();</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span> <span class="n">ipp</span> <span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span><span class="p">;</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">ProxyHandler</span><span class="p">(</span> <span class="p">)));</span> <span class="nb">open</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">ipp</span><span class="p">,</span> <span class="n">pf</span><span class="p">),</span> <span class="s">&#39;wb&#39;</span> <span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span> <span class="s">&#39;http://sublime.wbond.net/&#39;</span> <span class="o">+</span><span class="n">pf</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span> <span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;%20&#39;</span> <span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">());</span> <span class="k">print</span><span class="p">(</span> <span class="s">&#39;Please restart Sublime Text to finish installation&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Press key <code>Enter</code> to run the code above and then restart Sublime Text 2.</li>
-<li>Use <code>Ctrl+Shift+P</code> to call the Command Palette.</li>
-<li>Type in <code>PCIP</code> and press key <code>Enter</code>.</li>
-<li>Type in key words to find package <strong><em>Markdown Preview</em></strong> and package <strong><em>Markdown Editing</em></strong>.</li>
-<li>Click and install these two packages.</li>
-<li><p>Done!</p>
-
-<p>  Congratulations! Let us undertake to write blogs on Github!</p></li>
-</ul>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/07/how-i-posted-my-first-blog-on-github/" title="Previous Post: How I Posted My First Blog on Github">&laquo; How I Posted My First Blog on Github</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -297,6 +158,7 @@ Finally, generate and deploy your blog site onto Github:</p>
 
   
 </aside>
+
 
     </div>
   </div>
