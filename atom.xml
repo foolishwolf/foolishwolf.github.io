@@ -4,7 +4,7 @@
   <title><![CDATA[Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T19:59:14+08:00</updated>
+  <updated>2017-06-05T20:06:50+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[从TFS获取指定日期后的最新版本文件]]></title>
-    <link href="http://foolishwolf.github.io/blog/2017/06/03/cong-tfs-huo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian/"/>
+    <link href="http://foolishwolf.github.io/blog/2017/06/03/getting-newest-version-from-tfs-after-specific-date/"/>
     <updated>2017-06-03T15:36:31+08:00</updated>
-    <id>http://foolishwolf.github.io/blog/2017/06/03/cong-tfs-huo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian</id>
+    <id>http://foolishwolf.github.io/blog/2017/06/03/getting-newest-version-from-tfs-after-specific-date</id>
     <content type="html"><![CDATA[<h3>背景介绍</h3>
 
 <p>对于迭代开发的版本管理来说，最经常的事情，就是整理每次迭代的版本。特别是时间紧张的时候，每天可能都需要下发版本进行测试。<br/>
@@ -319,15 +319,15 @@
 
 <h4>2. 不在多行注释中</h4>
 
-<p>对于这种情况，如果后续字符中除了空格和制表符，首先出现的是单行注释符，则注释符后面的字符都在注释中，所以可以直接结束本行的解析，开始下一行。否则，我们需要继续搜索多行注释开始符出现的位置。
-找到多行注释开始符后，并不意味着后面就是注释内容，还需要做两点检查：1）该注释符是否在引号对中，因为此时在引号中的注释符是不起作用的；2）该注释符是否是最早出现的多行注释开始符类型，由于同一种语言的多行注释符可能有多种，而只有最早出现的多行注释开始符才起作用。
-1）针对第一点，我们可以在搜索的起点到该注释符的区间内计算引号的数量，如果引号为偶数，则说明不在引号对中，否则在引号对中。
-引号数量奇偶性判断，需要逐对来判断，这是因为引号对中的引号是不起作用的。有一种特例是，多行注释符同时也是引号的组合，例如Python。此时计算数量的引号，需要与搜索到的多行注释符不同，如多行注释符为<code>'''</code>，则应该计算<code>"</code>的数量。
+<p>对于这种情况，如果后续字符中除了空格和制表符，首先出现的是单行注释符，则注释符后面的字符都在注释中，所以可以直接结束本行的解析，开始下一行。否则，我们需要继续搜索多行注释开始符出现的位置。<br/>
+找到多行注释开始符后，并不意味着后面就是注释内容，还需要做两点检查：1）该注释符是否在引号对中，因为此时在引号中的注释符是不起作用的；2）该注释符是否是最早出现的多行注释开始符类型，由于同一种语言的多行注释符可能有多种，而只有最早出现的多行注释开始符才起作用。<br/>
+1）针对第一点，我们可以在搜索的起点到该注释符的区间内计算引号的数量，如果引号为偶数，则说明不在引号对中，否则在引号对中。<br/>
+引号数量奇偶性判断，需要逐对来判断，这是因为引号对中的引号是不起作用的。有一种特例是，多行注释符同时也是引号的组合，例如Python。此时计算数量的引号，需要与搜索到的多行注释符不同，如多行注释符为<code>'''</code>，则应该计算<code>"</code>的数量。<br/>
 2）针对第二点，我们可以遍历各个多行注释开始符，并取位置最靠前的开始符，然后查找对应的结束符。</p>
 
 <h3>代码实现</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -444,132 +444,133 @@
 <span class='line-number'>115</span>
 <span class='line-number'>116</span>
 <span class='line-number'>117</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>\# encoding: utf-8
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
 </span><span class='line'>
-</span><span class='line'>import re
+</span><span class='line'><span class="kn">import</span> <span class="nn">re</span>
 </span><span class='line'>
-</span><span class='line'>'''
-</span><span class='line'>isCmt
-</span><span class='line'>功能：判断一行字符串是否为注释
-</span><span class='line'>输入：
-</span><span class='line'>  line: 字符串行
-</span><span class='line'>  isInMultiCmt：前面一行是否在多行注释中
-</span><span class='line'>  qttnFlagList: 引号列表
-</span><span class='line'>输出：
-</span><span class='line'>  isCmt: 当前行是否为注释
-</span><span class='line'>  isInMultiCmt：当前行是否在多行注释中
-</span><span class='line'>'''
+</span><span class='line'><span class="sd">&#39;&#39;&#39;</span>
+</span><span class='line'><span class="sd">isCmt</span>
+</span><span class='line'><span class="sd">功能：判断一行字符串是否为注释</span>
+</span><span class='line'><span class="sd">输入：</span>
+</span><span class='line'><span class="sd"> line: 字符串行</span>
+</span><span class='line'><span class="sd"> isInMultiCmt：前面一行是否在多行注释中</span>
+</span><span class='line'><span class="sd"> qttnFlagList: 引号列表</span>
+</span><span class='line'><span class="sd">输出：</span>
+</span><span class='line'><span class="sd"> isCmt: 当前行是否为注释</span>
+</span><span class='line'><span class="sd"> isInMultiCmt：当前行是否在多行注释中</span>
+</span><span class='line'><span class="sd">&#39;&#39;&#39;</span>
 </span><span class='line'>
-</span><span class='line'>def isCmt(line, multiCmtFlagIdx, cmtFlagObj):
-</span><span class='line'>  singleCmtFlag = cmtFlagObj["singleCmtFlag"] #单行注释符号
-</span><span class='line'>  multiCmtFlagList =cmtFlagObj["multiCmtFlagList"]
+</span><span class='line'><span class="k">def</span> <span class="nf">isCmt</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">multiCmtFlagIdx</span><span class="p">,</span> <span class="n">cmtFlagObj</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">singleCmtFlag</span> <span class="o">=</span> <span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;singleCmtFlag&quot;</span><span class="p">]</span> <span class="c">#单行注释符号</span>
+</span><span class='line'>  <span class="n">multiCmtFlagList</span> <span class="o">=</span><span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;multiCmtFlagList&quot;</span><span class="p">]</span>
 </span><span class='line'>
-</span><span class='line'>  qttnFlagList = cmtFlagObj["qttnFlagList"] #引号列表
-</span><span class='line'>  startPos = 0 #搜索多行注释符的开始位置
-</span><span class='line'>  isCmtRet = True
-</span><span class='line'>  # print 'line: ' + line.strip()
-</span><span class='line'>  while startPos &lt; len(line): #查找注释符号直到行末
-</span><span class='line'>      if multiCmtFlagIdx == -1: #不在多行注释中
-</span><span class='line'>          minStartIdx = len(line) #搜索到最靠前的多行注释符
-</span><span class='line'>          if singleCmtFlag != '' and re.match(r'(\s)*' + singleCmtFlag, line[startPos:]): #单行注释
-</span><span class='line'>              break
-</span><span class='line'>          idx = 0
-</span><span class='line'>          preStartIdx = startPos #记录搜索多行注释符前的搜索位置
-</span><span class='line'>          while idx &lt; len(cmtFlagObj["multiCmtFlagList"]):
-</span><span class='line'>              startCmtFlag = cmtFlagObj["multiCmtFlagList"][idx][0] #多行注释开始符号
-</span><span class='line'>              if startCmtFlag == '':
-</span><span class='line'>                  return False, -1 #无多行注释符号
-</span><span class='line'>              try:
-</span><span class='line'>                  startPos = re.search(r'(?&lt;!\\)' + startCmtFlag, line[startPos:]).start() + startPos #找到多行注释开始符号
-</span><span class='line'>                  if isInQuotation(line[:startPos], startCmtFlag, qttnFlagList): #注释开始符在引号中
-</span><span class='line'>                      startPos += len(startCmtFlag.replace('\*', '*')) #找下一个多行注释开始符
-</span><span class='line'>                      continue
-</span><span class='line'>                  else: #注释符号不在引号中
-</span><span class='line'>                      startPos += len(startCmtFlag.replace('\*', '*'))
-</span><span class='line'>                      if startPos &lt; minStartIdx:
-</span><span class='line'>                          multiCmtFlagIdx = idx #是多行注释
-</span><span class='line'>                          minStartIdx = startPos
-</span><span class='line'>                      startPos = preStartIdx #找下一个多行注释开始符
-</span><span class='line'>                      idx += 1
-</span><span class='line'>              except:
-</span><span class='line'>                  idx += 1
-</span><span class='line'>                  continue #没有找到多行注释开始符，继续查找下个类型的符号
+</span><span class='line'>  <span class="n">qttnFlagList</span> <span class="o">=</span> <span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;qttnFlagList&quot;</span><span class="p">]</span> <span class="c">#引号列表</span>
+</span><span class='line'>  <span class="n">startPos</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">#搜索多行注释符的开始位置</span>
+</span><span class='line'>  <span class="n">isCmtRet</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'>  <span class="c"># print &#39;line: &#39; + line.strip()</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">startPos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">):</span> <span class="c">#查找注释符号直到行末</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">multiCmtFlagIdx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c">#不在多行注释中</span>
+</span><span class='line'>          <span class="n">minStartIdx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="c">#搜索到最靠前的多行注释符</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">singleCmtFlag</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;(\s)*&#39;</span> <span class="o">+</span> <span class="n">singleCmtFlag</span><span class="p">,</span> <span class="n">line</span><span class="p">[</span><span class="n">startPos</span><span class="p">:]):</span> <span class="c">#单行注释</span>
+</span><span class='line'>              <span class="k">break</span>
+</span><span class='line'>          <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>          <span class="n">preStartIdx</span> <span class="o">=</span> <span class="n">startPos</span> <span class="c">#记录搜索多行注释符前的搜索位置</span>
+</span><span class='line'>          <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;multiCmtFlagList&quot;</span><span class="p">]):</span>
+</span><span class='line'>              <span class="n">startCmtFlag</span> <span class="o">=</span> <span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;multiCmtFlagList&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c">#多行注释开始符号</span>
+</span><span class='line'>              <span class="k">if</span> <span class="n">startCmtFlag</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+</span><span class='line'>                  <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="c">#无多行注释符号</span>
+</span><span class='line'>              <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>                  <span class="n">startPos</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(?&lt;!</span><span class="se">\\</span><span class="s">)&#39;</span> <span class="o">+</span> <span class="n">startCmtFlag</span><span class="p">,</span> <span class="n">line</span><span class="p">[</span><span class="n">startPos</span><span class="p">:])</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="o">+</span> <span class="n">startPos</span> <span class="c">#找到多行注释开始符号</span>
+</span><span class='line'>                  <span class="k">if</span> <span class="n">isInQuotation</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="n">startPos</span><span class="p">],</span> <span class="n">startCmtFlag</span><span class="p">,</span> <span class="n">qttnFlagList</span><span class="p">):</span> <span class="c">#注释开始符在引号中</span>
+</span><span class='line'>                      <span class="n">startPos</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">startCmtFlag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;\*&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">))</span> <span class="c">#找下一个多行注释开始符</span>
+</span><span class='line'>                      <span class="k">continue</span>
+</span><span class='line'>                  <span class="k">else</span><span class="p">:</span> <span class="c">#注释符号不在引号中</span>
+</span><span class='line'>                      <span class="n">startPos</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">startCmtFlag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;\*&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">))</span>
+</span><span class='line'>                      <span class="k">if</span> <span class="n">startPos</span> <span class="o">&lt;</span> <span class="n">minStartIdx</span><span class="p">:</span>
+</span><span class='line'>                          <span class="n">multiCmtFlagIdx</span> <span class="o">=</span> <span class="n">idx</span> <span class="c">#是多行注释</span>
+</span><span class='line'>                          <span class="n">minStartIdx</span> <span class="o">=</span> <span class="n">startPos</span>
+</span><span class='line'>                      <span class="n">startPos</span> <span class="o">=</span> <span class="n">preStartIdx</span> <span class="c">#找下一个多行注释开始符</span>
+</span><span class='line'>                      <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>              <span class="k">except</span><span class="p">:</span>
+</span><span class='line'>                  <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>                  <span class="k">continue</span> <span class="c">#没有找到多行注释开始符，继续查找下个类型的符号</span>
 </span><span class='line'>
-</span><span class='line'>          if minStartIdx != len(line): #此时搜索到了多行注释开始符
-</span><span class='line'>              startCmtFlag = cmtFlagObj["multiCmtFlagList"][multiCmtFlagIdx][0]
-</span><span class='line'>              if not re.match(r'(\s)*' + startCmtFlag, line[preStartIdx:]):
-</span><span class='line'>                  isCmtRet = False
-</span><span class='line'>          elif line[preStartIdx:] != '\n':
-</span><span class='line'>              isCmtRet = False
-</span><span class='line'>          startPos = minStartIdx
+</span><span class='line'>          <span class="k">if</span> <span class="n">minStartIdx</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">):</span> <span class="c">#此时搜索到了多行注释开始符</span>
+</span><span class='line'>              <span class="n">startCmtFlag</span> <span class="o">=</span> <span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;multiCmtFlagList&quot;</span><span class="p">][</span><span class="n">multiCmtFlagIdx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>              <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;(\s)*&#39;</span> <span class="o">+</span> <span class="n">startCmtFlag</span><span class="p">,</span> <span class="n">line</span><span class="p">[</span><span class="n">preStartIdx</span><span class="p">:]):</span>
+</span><span class='line'>                  <span class="n">isCmtRet</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>          <span class="k">elif</span> <span class="n">line</span><span class="p">[</span><span class="n">preStartIdx</span><span class="p">:]</span> <span class="o">!=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">:</span>
+</span><span class='line'>              <span class="n">isCmtRet</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>          <span class="n">startPos</span> <span class="o">=</span> <span class="n">minStartIdx</span>
 </span><span class='line'>
-</span><span class='line'>      elif multiCmtFlagIdx != -1: #在多行注释中
-</span><span class='line'>          endCmtFlag = cmtFlagObj["multiCmtFlagList"][multiCmtFlagIdx][1] #多行注释开始符
-</span><span class='line'>          if endCmtFlag == '':
-</span><span class='line'>              return False, -1 #注释符号配置有错误
-</span><span class='line'>          try:
-</span><span class='line'>              startPos \
-</span><span class='line'>              = re.search(endCmtFlag, line[startPos:]).start() \
-</span><span class='line'>              + startPos \
-</span><span class='line'>              + len(endCmtFlag.replace('\*', '*'))  #查找多汗注释结束符的位置
-</span><span class='line'>              multiCmtFlagIdx = -1
-</span><span class='line'>          except:
-</span><span class='line'>              break
+</span><span class='line'>      <span class="k">elif</span> <span class="n">multiCmtFlagIdx</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c">#在多行注释中</span>
+</span><span class='line'>          <span class="n">endCmtFlag</span> <span class="o">=</span> <span class="n">cmtFlagObj</span><span class="p">[</span><span class="s">&quot;multiCmtFlagList&quot;</span><span class="p">][</span><span class="n">multiCmtFlagIdx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="c">#多行注释开始符</span>
+</span><span class='line'>          <span class="k">if</span> <span class="n">endCmtFlag</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+</span><span class='line'>              <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="c">#注释符号配置有错误</span>
+</span><span class='line'>          <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>              <span class="n">startPos</span> \
+</span><span class='line'>              <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">endCmtFlag</span><span class="p">,</span> <span class="n">line</span><span class="p">[</span><span class="n">startPos</span><span class="p">:])</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> \
+</span><span class='line'>              <span class="o">+</span> <span class="n">startPos</span> \
+</span><span class='line'>              <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">endCmtFlag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;\*&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">))</span>  <span class="c">#查找多汗注释结束符的位置</span>
+</span><span class='line'>              <span class="n">multiCmtFlagIdx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>          <span class="k">except</span><span class="p">:</span>
+</span><span class='line'>              <span class="k">break</span>
 </span><span class='line'>
-</span><span class='line'>  # print isCmtRet, multiCmtFlagIdx
-</span><span class='line'>  return isCmtRet, multiCmtFlagIdx #返回是否注释行，以及当前是否在多行注释中
+</span><span class='line'>  <span class="c"># print isCmtRet, multiCmtFlagIdx</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">isCmtRet</span><span class="p">,</span> <span class="n">multiCmtFlagIdx</span> <span class="c">#返回是否注释行，以及当前是否在多行注释中</span>
 </span><span class='line'>
-</span><span class='line'>'''
-</span><span class='line'>函数名：isInQuotation
-</span><span class='line'>功能：根据字符串中引号的奇偶，判断后面的字符是否在引号中
-</span><span class='line'>输入：
-</span><span class='line'>  line: 一行代码中指定字符前的字符串
-</span><span class='line'>  qttnFlagList: 引号列表
-</span><span class='line'>输出：
-</span><span class='line'>  布尔值：
-</span><span class='line'>      True：字符串包含在引号中
-</span><span class='line'>      False：字符串不包含在引号中
+</span><span class='line'><span class="sd">&#39;&#39;&#39;</span>
+</span><span class='line'><span class="sd">函数名：isInQuotation</span>
+</span><span class='line'><span class="sd">功能：根据字符串中引号的奇偶，判断后面的字符是否在引号中</span>
+</span><span class='line'><span class="sd">输入：</span>
+</span><span class='line'><span class="sd"> line: 一行代码中指定字符前的字符串</span>
+</span><span class='line'><span class="sd"> qttnFlagList: 引号列表</span>
+</span><span class='line'><span class="sd">输出：</span>
+</span><span class='line'><span class="sd"> 布尔值：</span>
+</span><span class='line'><span class="sd">     True：字符串包含在引号中</span>
+</span><span class='line'><span class="sd">     False：字符串不包含在引号中</span>
 </span><span class='line'>
-</span><span class='line'>'''
+</span><span class='line'><span class="sd">&#39;&#39;&#39;</span>
 </span><span class='line'>
-</span><span class='line'>def isInQuotation(line, cmtFlag, qttnFlagList):
+</span><span class='line'><span class="k">def</span> <span class="nf">isInQuotation</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">cmtFlag</span><span class="p">,</span> <span class="n">qttnFlagList</span><span class="p">):</span>
 </span><span class='line'>
-</span><span class='line'>  qttnFlagIdx = len(line)
-</span><span class='line'>  flagIdx = len(line)
-</span><span class='line'>  rearLine = line
-</span><span class='line'>  for i in range(len(qttnFlagList)):
-</span><span class='line'>      flag = qttnFlagList[i]
+</span><span class='line'>  <span class="n">qttnFlagIdx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flagIdx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rearLine</span> <span class="o">=</span> <span class="n">line</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qttnFlagList</span><span class="p">)):</span>
+</span><span class='line'>      <span class="n">flag</span> <span class="o">=</span> <span class="n">qttnFlagList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 </span><span class='line'>      
-</span><span class='line'>      if flag == cmtFlag[0]: #排除引号同时也是注释符号的情况
-</span><span class='line'>          continue
-</span><span class='line'>      try:
-</span><span class='line'>          flagIdx = re.search(r'(?&lt;!\\)' + flag + r'.*', line).start() #查找左引号
-</span><span class='line'>          rearLine = re.search(r'(?&lt;!\\)' + flag + r'.*', line).group()[len(flag):]
-</span><span class='line'>      except:
-</span><span class='line'>          flagIdx = len(line)
+</span><span class='line'>      <span class="k">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="n">cmtFlag</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="c">#排除引号同时也是注释符号的情况</span>
+</span><span class='line'>          <span class="k">continue</span>
+</span><span class='line'>      <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>          <span class="n">flagIdx</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(?&lt;!</span><span class="se">\\</span><span class="s">)&#39;</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">+</span> <span class="s">r&#39;.*&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="c">#查找左引号</span>
+</span><span class='line'>          <span class="n">rearLine</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(?&lt;!</span><span class="se">\\</span><span class="s">)&#39;</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">+</span> <span class="s">r&#39;.*&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">flag</span><span class="p">):]</span>
+</span><span class='line'>      <span class="k">except</span><span class="p">:</span>
+</span><span class='line'>          <span class="n">flagIdx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>      if flagIdx &lt; qttnFlagIdx: #根据最早出现的左引号，确认左引号类型
-</span><span class='line'>          qttnFlagIdx = flagIdx
-</span><span class='line'>          qttnFlag = flag
+</span><span class='line'>      <span class="k">if</span> <span class="n">flagIdx</span> <span class="o">&lt;</span> <span class="n">qttnFlagIdx</span><span class="p">:</span> <span class="c">#根据最早出现的左引号，确认左引号类型</span>
+</span><span class='line'>          <span class="n">qttnFlagIdx</span> <span class="o">=</span> <span class="n">flagIdx</span>
+</span><span class='line'>          <span class="n">qttnFlag</span> <span class="o">=</span> <span class="n">flag</span>
 </span><span class='line'>
-</span><span class='line'>  if qttnFlagIdx != len(line):
-</span><span class='line'>      try:
-</span><span class='line'>          #print rearLine
-</span><span class='line'>          rearLine = re.search(r'(?&lt;!\\)' + qttnFlag + r'.*', rearLine).group()[len(qttnFlag):] #查找右引号
-</span><span class='line'>          return isInQuotation(rearLine, cmtFlag[0], qttnFlagList) #再次查找下一个左引号
-</span><span class='line'>      except:
-</span><span class='line'>          return True #在引号对中
-</span><span class='line'>  else:
-</span><span class='line'>      return False #不在引号对中</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">if</span> <span class="n">qttnFlagIdx</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+</span><span class='line'>      <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>          <span class="c">#print rearLine</span>
+</span><span class='line'>          <span class="n">rearLine</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(?&lt;!</span><span class="se">\\</span><span class="s">)&#39;</span> <span class="o">+</span> <span class="n">qttnFlag</span> <span class="o">+</span> <span class="s">r&#39;.*&#39;</span><span class="p">,</span> <span class="n">rearLine</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">qttnFlag</span><span class="p">):]</span> <span class="c">#查找右引号</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">isInQuotation</span><span class="p">(</span><span class="n">rearLine</span><span class="p">,</span> <span class="n">cmtFlag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qttnFlagList</span><span class="p">)</span> <span class="c">#再次查找下一个左引号</span>
+</span><span class='line'>      <span class="k">except</span><span class="p">:</span>
+</span><span class='line'>          <span class="k">return</span> <span class="bp">True</span> <span class="c">#在引号对中</span>
+</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">return</span> <span class="bp">False</span> <span class="c">#不在引号对中</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[如何在Windows下优雅地使用Ubuntu的bash]]></title>
-    <link href="http://foolishwolf.github.io/blog/2016/08/14/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash/"/>
+    <link href="http://foolishwolf.github.io/blog/2016/08/14/how-to-gracefully-use-ubuntu-bash-on-windows/"/>
     <updated>2016-08-14T18:44:50+08:00</updated>
-    <id>http://foolishwolf.github.io/blog/2016/08/14/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash</id>
+    <id>http://foolishwolf.github.io/blog/2016/08/14/how-to-gracefully-use-ubuntu-bash-on-windows</id>
     <content type="html"><![CDATA[<h2>1. Win10一周年的升级版本提供了内置的Unbutu Bash功能</h2>
 
 <p>升级Win10到最新的1607，然后在“程序与功能-启用或关闭Windows功能”中选择安装beta版的内置Linux bash功能。重启之后，Cmd或PowerShell中键入bash，根据提示从应用商店中下载子系统。该系统目前的版本为Ubuntu 14.04，系统加载后，硬盘中的各个盘符会自动挂载到/mnt/下，如/mnt/c等，也可以使用apt-get等工具直接从源上下载Ubuntu上运行的项目或组件。
