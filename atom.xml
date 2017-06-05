@@ -4,7 +4,7 @@
   <title><![CDATA[Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T20:06:50+08:00</updated>
+  <updated>2017-06-05T20:27:03+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -563,6 +563,62 @@
 </span><span class='line'>      <span class="k">return</span> <span class="bp">False</span> <span class="c">#不在引号对中</span>
 </span></code></pre></td></tr></table></div></figure>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[数列反推]]></title>
+    <link href="http://foolishwolf.github.io/blog/2016/09/15/inferring-original-array/"/>
+    <updated>2016-09-15T09:33:03+08:00</updated>
+    <id>http://foolishwolf.github.io/blog/2016/09/15/inferring-original-array</id>
+    <content type="html"><![CDATA[<h2>题目：</h2>
+
+<p><strong>对数列8，1，6，2，10，3，7，4，9，5进行如下操作：</strong><br/>
+<strong>将8移到数列末尾，并输出下一个数字1，然后将6移动数列末尾，并输出下一个数字2……直到输出所有数字。输出的结果为：</strong><br/>
+<strong>1，2，3，4，5，6，7，8，9，10</strong><br/>
+<strong>现在任意给定进行上述操作后的结果数列D[n]，求该数列在进行操作前的原数列S[n]是什么？</strong><br/>
+<strong>输入：</strong> <em>n, D[n]</em><br/>
+<strong>输出：</strong> <em>S[n]</em></p>
+
+<h2>解题思路：</h2>
+
+<p>初看此题，第一反应肯定是总结归纳逆向的逻辑，倒也比较直观了。<br/>
+定义sel(k)为第n-k步操作后已取的数列，opt(k)为第n-k步操作，rest(k)为第n-k步操作后未取的数列。则：<br/>
+    1：对于结果为[1, 2]的情况，<br/>
+        sel(0): [1, 2]，rest(0): []，opt(0): 移[]取2；<br/>
+        sel(1): [1]，rest(1): [2]，opt(1): 移2取1；<br/>
+        sel(2): []，rest(2): [2, 1]，opt(2): 无；<br/>
+        所以原数列为[2, 1]。<br/>
+    2：对于结果为[1, 2, 3]的情况，<br/>
+        sel(0): [1, 2, 3]，rest(0)为[]，opt(0): 移[]取3；<br/>
+        sel(1): [1, 2]，rest(1): [3]，opt(1): 移3取2；<br/>
+        sel(2): [1]，rest(2): [3, 2]，opt(2): 移2取1；<br/>
+        sel(3): []，rest(3): [2, 1, 3]，opt(3): 无；<br/>
+        所以原数列为[2, 1, 3]。<br/>
+    3：对于结果为[1, 2, 3, 4]的情况，<br/>
+        sel(0): [1, 2, 3, 4]，rest(0)为[]，opt(0): 移[]取4；<br/>
+        sel(1): [1, 2, 3]，rest(1): [4]，opt(1): 移4取3；<br/>
+        sel(2): [1, 2]，rest(2): [4, 3]，opt(2): 移3取2；<br/>
+        sel(3): [1]，rest(3): [3, 2, 4]，opt(3): 移4取1；<br/>
+        sel(4): []，rest(4): [4, 1, 3, 2]，opt(3): 无；<br/>
+        所以原数列为[4, 1, 3, 2]。<br/>
+    ……<br/>
+不难发现k>0时，sel(k+1)、rest(k+1)与sel(k)、rest(k)之间的关系为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rest(k+1) = [rest(k)[k-1], sel(k)[n-k-1], rest(k)[0], ..., rest(k)[k-2]] 
+</span><span class='line'>sel(k) = [1, 2, ..., n-k]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>根据上面的两个式子，就可以构造循环来推出rest(n)，即为原数列。</p>
+
+<p>然而这不是数学题，下面让我们用程序员的思维来解决。</p>
+
+<h2>解题思路PLUS：</h2>
+
+<p>对于S[n]中各坐标为k的数字，在经过题目中的操作后，变换到D[n]的位置i。而对于给定的D[n]，显然可知D[i] = i + 1，即对于已知的k，可以得出S[k] = D[i] = i + 1。<br/>
+所以我们只需构造SrcIdx[n] = [0, &hellip;, n-1]，并作题目中的操作，得到DstIdx[n]。然后构造i = 0~n-1的循环，将S[DstIdx[i]]赋值为 i+1 即可，求解完毕。</p>
 ]]></content>
   </entry>
   
