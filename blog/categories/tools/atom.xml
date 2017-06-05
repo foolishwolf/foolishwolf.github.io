@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Tools | My Octopress Blog]]></title>
+  <title><![CDATA[Category: Tools | Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T11:13:31+08:00</updated>
+  <updated>2017-06-05T11:33:00+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Foolishwolf]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
