@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何在Windows下优雅地使用Ubuntu的bash.md - Foolishwolf's Code Blog</title>
+  <meta name="author" content="Foolishwolf">
+
+  
+  <meta name="description" content="1. Win10一周年的升级版本提供了内置的Unbutu Bash功能 升级Win10到最新的1607，然后在“程序与功能-启用或关闭Windows功能”中选择安装beta版的内置Linux bash功能。重启之后，Cmd或PowerShell中键入bash，根据提示从应用商店中下载子系统。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://foolishwolf.github.io/blog/2017/06/05/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Foolishwolf's Code Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Foolishwolf's Code Blog</a></h1>
+  
+    <h2>Stay Foolish</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <!--<li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>-->
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何在Windows下优雅地使用Ubuntu的bash.md</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-06-05T12:36:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>12:36 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>1. Win10一周年的升级版本提供了内置的Unbutu Bash功能</h2>
+
+<p>升级Win10到最新的1607，然后在“程序与功能-启用或关闭Windows功能”中选择安装beta版的内置Linux bash功能。重启之后，Cmd或PowerShell中键入bash，根据提示从应用商店中下载子系统。该系统目前的版本为Ubuntu 14.04，系统加载后，硬盘中的各个盘符会自动挂载到/mnt/下，如/mnt/c等，也可以使用apt-get等工具直接从源上下载Ubuntu上运行的项目或组件。
+当然这个方法的前提是你使用的是Win10系统，而且目前来看beta版还是有一些小问题，特别是在某些小的交互操作上，不能很好地与Ubuntu的bash相匹配。</p>
+
+<h2>2. Cygwin</h2>
+
+<p>不是很推荐，官网上是这样描述的：</p>
+
+<h4>What&hellip;</h4>
+
+<h4>&hellip;isn&rsquo;t it?</h4>
+
+<h4>Cygwin is not:</h4>
+
+<p>•a way to run native Linux apps on Windows. You must rebuild your application from source if you want it to run on Windows.
+•a way to magically make native Windows apps aware of UNIX® functionality like signals, ptys, etc. Again, you need to build your apps from source if you want to take advantage of Cygwin functionality.
+所以Cygwin给人四不像的感觉，使用起来还是有很多不便。如果只是为了在windows下使用一些顺手的命令，倒是可以试一试。</p>
+
+<h2>3. Vmware虚拟机+Ubuntu</h2>
+
+<p>长期以来，这是一个小白都知道的方法，而且随着PC性能的提高，虚拟机的desktop显示效果几乎可以做到以假乱真。但是虚拟机毕竟是“<strong>虚拟</strong>”的机，不可能独占资源地运行，所以在虚拟机desktop上的交互体验，总是让你怀疑自己机器的性能。
+所以，这里我们需要摒弃虚拟机的桌面环境，并仿照远程登录的方式，在命令行中使用本地虚拟机的Bash。
+<em>提示: 即便如此，你可能仍然需要一个8G的内存。</em></p>
+
+<h4>首先你需要一个顺手的Command Prompt</h4>
+
+<p>如果你在使用Terminal很久以后，还能忍受Cmd或者PowerShell的话，那也没办法。
+这里推荐Cmder，Cmder可以从官网或者Github上下载，mini版即可，虽然只有几M，但是限于网络的原因，可能确实需要点下载的时间。Cmder的完整版包含了Github的bash，但其实并不需要，因为即将在Linux下使用Git，Windows下就无需再安装了。</p>
+
+<h4>安装OpenSSH，实现远程登录</h4>
+
+<p>在<a href="http://www.mls-software.com/opensshd.html">http://www.mls-software.com/opensshd.html</a>下载OpenSSH的Windows版安装包并安装，在环境变量中添加OpenSSH的可执行文件目录，如“C:\Program Files\OpenSSH\bin”。
+在Cmder中输入：
+<code>vmrun start "your_vm_path" nogui</code>
+会以后台方式打开指定的虚拟机，然后输入：
+<code>ssh your_name@virtual_machine_ip</code>
+<em>提示: 上面的两行shell命令可以保存为bat文件，方便以后直接调用。</em>
+出现提示输入密码的时候，输入虚拟机下对应用户的密码。输入正确后，就会进入用户目录“/home/your_name/”。
+一般的设置下，虚拟机的IP是由主机的本地DHCP分配的，所以每次启动虚拟机后，虚拟机的IP地址可能会跟上次启动后不同，给使用ssh登录造成不便。所以最好在“虚拟网络编辑器”中，将“使用本地DHCP服务将IP地址分配给虚拟机”选项取消，并根据虚拟机所在子网（可以从“虚拟网络编辑器”中查到）和网关，手工将IP地址、子网掩码、网关、DNS设为固定值，方便以后的登录。</p>
+
+<h4>虚拟机到主机的端口映射</h4>
+
+<p>这一设置主要是方便在主机访问虚拟机某一端口的服务，例如在虚拟机的“PORT”端口上搭建了web服务，并将“PORT”端口映射到了主机“HOST_PORT”后，即可在主机的浏览器中输入“127.0.0.1:HOST_PORT”来访问此网站。
+以Vmware Workstation 12 为例，在“编辑-虚拟网络编辑器-NAT设置”中，点击“添加”，输入需要映射到的目的主机端口，虚拟机的IP以及虚拟机的源端口，最后点击确定即可。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Foolishwolf</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-06-05T12:36:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>12:36 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/06/05/cong-tfs-huo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian/" title="Previous Post: 从TFS获取指定日期后的最新版本文件">&laquo; 从TFS获取指定日期后的最新版本文件</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/06/05/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash/">如何在Windows下优雅地使用Ubuntu的bash.md</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/05/cong-tfs-huo-qu-zhi-ding-ri-qi-hou-de-zui-xin-ban-ben-wen-jian/">从TFS获取指定日期后的最新版本文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/07/how-i-posted-my-first-blog-on-github/">How I Posted My First Blog on Github</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Foolishwolf -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
