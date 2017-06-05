@@ -4,7 +4,7 @@
   <title><![CDATA[Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T15:13:55+08:00</updated>
+  <updated>2017-06-05T19:59:14+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -290,6 +290,277 @@
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python实现判断一行代码是否为注释]]></title>
+    <link href="http://foolishwolf.github.io/blog/2016/11/20/using-paython-to-find-comments-in-code/"/>
+    <updated>2016-11-20T18:19:19+08:00</updated>
+    <id>http://foolishwolf.github.io/blog/2016/11/20/using-paython-to-find-comments-in-code</id>
+    <content type="html"><![CDATA[<h2>Python实现判断一行代码是否为注释</h2>
+
+<p>目前的编辑器大都可以自动检测某一行代码是否为代码行或注释行，但并不太提供代码行/注释行行数的统计，对于大量代码文件的代码行/注释行统计，就更少见一些。本篇文章试用一段Python脚本来实现这一目标，并希望可以兼容统计不同语言编写的代码。</p>
+
+<h3>注释符号的研究</h3>
+
+<p>我们先来关注常见语言的注释符号构成。一般来讲注释符号分为单行注释符和多行注释符，以Python为例，则分别为<code>#</code>和<code>'''</code>(或<code>"""</code>)。由于多行注释符会影响后续行的判断，所以在遍历各行时必须存在一个标志位<code>multiCmtFlagIdx</code>，来记录是否已经开始多行注释，以及多行注释的符号为哪一种。有了该判断之后，才可以继续对后续的字符进行分析。</p>
+
+<h4>1. 在多行注释中</h4>
+
+<p>这种情况后面的分析较为简单，由于已知多行注释符的类型，我们可以判断后续的字符中最早出现对应的多行注释结束符的位置为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>re.search(endCmtFlag, line[startPos:]).start() + startPos</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果可以搜索到，则将<code>multiCmtFlagIdx</code>赋值为<code>-1</code>，表示多行注释已经结束。如果没有搜索到，则说明本行后续字符仍在多行注释中，可以直接开始下一行的解析。</p>
+
+<h4>2. 不在多行注释中</h4>
+
+<p>对于这种情况，如果后续字符中除了空格和制表符，首先出现的是单行注释符，则注释符后面的字符都在注释中，所以可以直接结束本行的解析，开始下一行。否则，我们需要继续搜索多行注释开始符出现的位置。
+找到多行注释开始符后，并不意味着后面就是注释内容，还需要做两点检查：1）该注释符是否在引号对中，因为此时在引号中的注释符是不起作用的；2）该注释符是否是最早出现的多行注释开始符类型，由于同一种语言的多行注释符可能有多种，而只有最早出现的多行注释开始符才起作用。
+1）针对第一点，我们可以在搜索的起点到该注释符的区间内计算引号的数量，如果引号为偶数，则说明不在引号对中，否则在引号对中。
+引号数量奇偶性判断，需要逐对来判断，这是因为引号对中的引号是不起作用的。有一种特例是，多行注释符同时也是引号的组合，例如Python。此时计算数量的引号，需要与搜索到的多行注释符不同，如多行注释符为<code>'''</code>，则应该计算<code>"</code>的数量。
+2）针对第二点，我们可以遍历各个多行注释开始符，并取位置最靠前的开始符，然后查找对应的结束符。</p>
+
+<h3>代码实现</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>\# encoding: utf-8
+</span><span class='line'>
+</span><span class='line'>import re
+</span><span class='line'>
+</span><span class='line'>'''
+</span><span class='line'>isCmt
+</span><span class='line'>功能：判断一行字符串是否为注释
+</span><span class='line'>输入：
+</span><span class='line'>  line: 字符串行
+</span><span class='line'>  isInMultiCmt：前面一行是否在多行注释中
+</span><span class='line'>  qttnFlagList: 引号列表
+</span><span class='line'>输出：
+</span><span class='line'>  isCmt: 当前行是否为注释
+</span><span class='line'>  isInMultiCmt：当前行是否在多行注释中
+</span><span class='line'>'''
+</span><span class='line'>
+</span><span class='line'>def isCmt(line, multiCmtFlagIdx, cmtFlagObj):
+</span><span class='line'>  singleCmtFlag = cmtFlagObj["singleCmtFlag"] #单行注释符号
+</span><span class='line'>  multiCmtFlagList =cmtFlagObj["multiCmtFlagList"]
+</span><span class='line'>
+</span><span class='line'>  qttnFlagList = cmtFlagObj["qttnFlagList"] #引号列表
+</span><span class='line'>  startPos = 0 #搜索多行注释符的开始位置
+</span><span class='line'>  isCmtRet = True
+</span><span class='line'>  # print 'line: ' + line.strip()
+</span><span class='line'>  while startPos &lt; len(line): #查找注释符号直到行末
+</span><span class='line'>      if multiCmtFlagIdx == -1: #不在多行注释中
+</span><span class='line'>          minStartIdx = len(line) #搜索到最靠前的多行注释符
+</span><span class='line'>          if singleCmtFlag != '' and re.match(r'(\s)*' + singleCmtFlag, line[startPos:]): #单行注释
+</span><span class='line'>              break
+</span><span class='line'>          idx = 0
+</span><span class='line'>          preStartIdx = startPos #记录搜索多行注释符前的搜索位置
+</span><span class='line'>          while idx &lt; len(cmtFlagObj["multiCmtFlagList"]):
+</span><span class='line'>              startCmtFlag = cmtFlagObj["multiCmtFlagList"][idx][0] #多行注释开始符号
+</span><span class='line'>              if startCmtFlag == '':
+</span><span class='line'>                  return False, -1 #无多行注释符号
+</span><span class='line'>              try:
+</span><span class='line'>                  startPos = re.search(r'(?&lt;!\\)' + startCmtFlag, line[startPos:]).start() + startPos #找到多行注释开始符号
+</span><span class='line'>                  if isInQuotation(line[:startPos], startCmtFlag, qttnFlagList): #注释开始符在引号中
+</span><span class='line'>                      startPos += len(startCmtFlag.replace('\*', '*')) #找下一个多行注释开始符
+</span><span class='line'>                      continue
+</span><span class='line'>                  else: #注释符号不在引号中
+</span><span class='line'>                      startPos += len(startCmtFlag.replace('\*', '*'))
+</span><span class='line'>                      if startPos &lt; minStartIdx:
+</span><span class='line'>                          multiCmtFlagIdx = idx #是多行注释
+</span><span class='line'>                          minStartIdx = startPos
+</span><span class='line'>                      startPos = preStartIdx #找下一个多行注释开始符
+</span><span class='line'>                      idx += 1
+</span><span class='line'>              except:
+</span><span class='line'>                  idx += 1
+</span><span class='line'>                  continue #没有找到多行注释开始符，继续查找下个类型的符号
+</span><span class='line'>
+</span><span class='line'>          if minStartIdx != len(line): #此时搜索到了多行注释开始符
+</span><span class='line'>              startCmtFlag = cmtFlagObj["multiCmtFlagList"][multiCmtFlagIdx][0]
+</span><span class='line'>              if not re.match(r'(\s)*' + startCmtFlag, line[preStartIdx:]):
+</span><span class='line'>                  isCmtRet = False
+</span><span class='line'>          elif line[preStartIdx:] != '\n':
+</span><span class='line'>              isCmtRet = False
+</span><span class='line'>          startPos = minStartIdx
+</span><span class='line'>
+</span><span class='line'>      elif multiCmtFlagIdx != -1: #在多行注释中
+</span><span class='line'>          endCmtFlag = cmtFlagObj["multiCmtFlagList"][multiCmtFlagIdx][1] #多行注释开始符
+</span><span class='line'>          if endCmtFlag == '':
+</span><span class='line'>              return False, -1 #注释符号配置有错误
+</span><span class='line'>          try:
+</span><span class='line'>              startPos \
+</span><span class='line'>              = re.search(endCmtFlag, line[startPos:]).start() \
+</span><span class='line'>              + startPos \
+</span><span class='line'>              + len(endCmtFlag.replace('\*', '*'))  #查找多汗注释结束符的位置
+</span><span class='line'>              multiCmtFlagIdx = -1
+</span><span class='line'>          except:
+</span><span class='line'>              break
+</span><span class='line'>
+</span><span class='line'>  # print isCmtRet, multiCmtFlagIdx
+</span><span class='line'>  return isCmtRet, multiCmtFlagIdx #返回是否注释行，以及当前是否在多行注释中
+</span><span class='line'>
+</span><span class='line'>'''
+</span><span class='line'>函数名：isInQuotation
+</span><span class='line'>功能：根据字符串中引号的奇偶，判断后面的字符是否在引号中
+</span><span class='line'>输入：
+</span><span class='line'>  line: 一行代码中指定字符前的字符串
+</span><span class='line'>  qttnFlagList: 引号列表
+</span><span class='line'>输出：
+</span><span class='line'>  布尔值：
+</span><span class='line'>      True：字符串包含在引号中
+</span><span class='line'>      False：字符串不包含在引号中
+</span><span class='line'>
+</span><span class='line'>'''
+</span><span class='line'>
+</span><span class='line'>def isInQuotation(line, cmtFlag, qttnFlagList):
+</span><span class='line'>
+</span><span class='line'>  qttnFlagIdx = len(line)
+</span><span class='line'>  flagIdx = len(line)
+</span><span class='line'>  rearLine = line
+</span><span class='line'>  for i in range(len(qttnFlagList)):
+</span><span class='line'>      flag = qttnFlagList[i]
+</span><span class='line'>      
+</span><span class='line'>      if flag == cmtFlag[0]: #排除引号同时也是注释符号的情况
+</span><span class='line'>          continue
+</span><span class='line'>      try:
+</span><span class='line'>          flagIdx = re.search(r'(?&lt;!\\)' + flag + r'.*', line).start() #查找左引号
+</span><span class='line'>          rearLine = re.search(r'(?&lt;!\\)' + flag + r'.*', line).group()[len(flag):]
+</span><span class='line'>      except:
+</span><span class='line'>          flagIdx = len(line)
+</span><span class='line'>
+</span><span class='line'>      if flagIdx &lt; qttnFlagIdx: #根据最早出现的左引号，确认左引号类型
+</span><span class='line'>          qttnFlagIdx = flagIdx
+</span><span class='line'>          qttnFlag = flag
+</span><span class='line'>
+</span><span class='line'>  if qttnFlagIdx != len(line):
+</span><span class='line'>      try:
+</span><span class='line'>          #print rearLine
+</span><span class='line'>          rearLine = re.search(r'(?&lt;!\\)' + qttnFlag + r'.*', rearLine).group()[len(qttnFlag):] #查找右引号
+</span><span class='line'>          return isInQuotation(rearLine, cmtFlag[0], qttnFlagList) #再次查找下一个左引号
+</span><span class='line'>      except:
+</span><span class='line'>          return True #在引号对中
+</span><span class='line'>  else:
+</span><span class='line'>      return False #不在引号对中</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
