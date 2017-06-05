@@ -96,17 +96,18 @@
 <h3>程序实现</h3>
 
 <p><code>csharp
-/*     程序功能：按起始时间从TFS上获取某一路径下签入文件的最新版本  
-可选输入：起始时间（格式：2017-01-01 或 2017-01-01 10:10:10），默认为当天的0点
-*/
-using System;
-using System.IO;
-using System.Configuration;
-using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.VersionControl.Client;
+/*
+    程序功能：按起始时间从TFS上获取某一路径下签入文件的最新版本    
+    可选输入：起始时间（格式：2017-01-01 或 2017-01-01 10:10:10），默认为当天的0点  
+*/  
+using System;  
+using System.IO;  
+using System.Configuration;  
+using Microsoft.TeamFoundation.Client;  
+using Microsoft.TeamFoundation.VersionControl.Client;  
 namespace TfsFetch{  
-    class Program{
-        //private System.Net.NetworkCredential netCred;
+    class Program{  
+        //private System.Net.NetworkCredential netCred;  
         private TfsTeamProjectCollection tfsTeamProjCol;
         private VersionControlServer vcs;
         //private Workspace ws;
