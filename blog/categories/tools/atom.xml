@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Foolishwolf's Code Blog]]></title>
   <link href="http://foolishwolf.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://foolishwolf.github.io/"/>
-  <updated>2017-06-05T12:46:47+08:00</updated>
+  <updated>2017-06-05T12:51:00+08:00</updated>
   <id>http://foolishwolf.github.io/</id>
   <author>
     <name><![CDATA[Foolishwolf]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[如何在Windows下优雅地使用Ubuntu的bash.md]]></title>
+    <title type="html"><![CDATA[如何在Windows下优雅地使用Ubuntu的bash]]></title>
     <link href="http://foolishwolf.github.io/blog/2017/06/05/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash/"/>
     <updated>2017-06-05T12:36:50+08:00</updated>
     <id>http://foolishwolf.github.io/blog/2017/06/05/ru-he-zai-windows-xia-you-ya-di-shi-yong-ubuntu-de-bash</id>
@@ -33,35 +33,35 @@
 
 <h4>Cygwin is not:</h4>
 
-<p>•a way to run native Linux apps on Windows. You must rebuild your application from source if you want it to run on Windows.
-•a way to magically make native Windows apps aware of UNIX® functionality like signals, ptys, etc. Again, you need to build your apps from source if you want to take advantage of Cygwin functionality.
+<p>•a way to run native Linux apps on Windows. You must rebuild your application from source if you want it to run on Windows  .
+•a way to magically make native Windows apps aware of UNIX® functionality like signals, ptys, etc. Again, you need to build your apps from source if you want to take advantage of Cygwin functionality. <br/>
 所以Cygwin给人四不像的感觉，使用起来还是有很多不便。如果只是为了在windows下使用一些顺手的命令，倒是可以试一试。</p>
 
 <h2>3. Vmware虚拟机+Ubuntu</h2>
 
-<p>长期以来，这是一个小白都知道的方法，而且随着PC性能的提高，虚拟机的desktop显示效果几乎可以做到以假乱真。但是虚拟机毕竟是“<strong>虚拟</strong>”的机，不可能独占资源地运行，所以在虚拟机desktop上的交互体验，总是让你怀疑自己机器的性能。
-所以，这里我们需要摒弃虚拟机的桌面环境，并仿照远程登录的方式，在命令行中使用本地虚拟机的Bash。
+<p>长期以来，这是一个小白都知道的方法，而且随着PC性能的提高，虚拟机的desktop显示效果几乎可以做到以假乱真。但是虚拟机毕竟是“<strong>虚拟</strong>”的机，不可能独占资源地运行，所以在虚拟机desktop上的交互体验，总是让你怀疑自己机器的性能。<br/>
+所以，这里我们需要摒弃虚拟机的桌面环境，并仿照远程登录的方式，在命令行中使用本地虚拟机的Bash。 <br/>
 <em>提示: 即便如此，你可能仍然需要一个8G的内存。</em></p>
 
 <h4>首先你需要一个顺手的Command Prompt</h4>
 
-<p>如果你在使用Terminal很久以后，还能忍受Cmd或者PowerShell的话，那也没办法。
+<p>如果你在使用Terminal很久以后，还能忍受Cmd或者PowerShell的话，那也没办法。<br/>
 这里推荐Cmder，Cmder可以从官网或者Github上下载，mini版即可，虽然只有几M，但是限于网络的原因，可能确实需要点下载的时间。Cmder的完整版包含了Github的bash，但其实并不需要，因为即将在Linux下使用Git，Windows下就无需再安装了。</p>
 
 <h4>安装OpenSSH，实现远程登录</h4>
 
-<p>在<a href="http://www.mls-software.com/opensshd.html">http://www.mls-software.com/opensshd.html</a>下载OpenSSH的Windows版安装包并安装，在环境变量中添加OpenSSH的可执行文件目录，如“C:\Program Files\OpenSSH\bin”。
-在Cmder中输入：
-<code>vmrun start "your_vm_path" nogui</code>
-会以后台方式打开指定的虚拟机，然后输入：
-<code>ssh your_name@virtual_machine_ip</code>
-<em>提示: 上面的两行shell命令可以保存为bat文件，方便以后直接调用。</em>
-出现提示输入密码的时候，输入虚拟机下对应用户的密码。输入正确后，就会进入用户目录“/home/your_name/”。
+<p>在<a href="http://www.mls-software.com/opensshd.html">http://www.mls-software.com/opensshd.html</a>下载OpenSSH的Windows版安装包并安装，在环境变量中添加OpenSSH的可执行文件目录，如“C:\Program Files\OpenSSH\bin”。<br/>
+在Cmder中输入：<br/>
+<code>vmrun start "your_vm_path" nogui</code><br/>
+会以后台方式打开指定的虚拟机，然后输入：<br/>
+<code>ssh your_name@virtual_machine_ip</code><br/>
+<em>提示: 上面的两行shell命令可以保存为bat文件，方便以后直接调用。</em><br/>
+出现提示输入密码的时候，输入虚拟机下对应用户的密码。输入正确后，就会进入用户目录“/home/your_name/”。<br/>
 一般的设置下，虚拟机的IP是由主机的本地DHCP分配的，所以每次启动虚拟机后，虚拟机的IP地址可能会跟上次启动后不同，给使用ssh登录造成不便。所以最好在“虚拟网络编辑器”中，将“使用本地DHCP服务将IP地址分配给虚拟机”选项取消，并根据虚拟机所在子网（可以从“虚拟网络编辑器”中查到）和网关，手工将IP地址、子网掩码、网关、DNS设为固定值，方便以后的登录。</p>
 
 <h4>虚拟机到主机的端口映射</h4>
 
-<p>这一设置主要是方便在主机访问虚拟机某一端口的服务，例如在虚拟机的“PORT”端口上搭建了web服务，并将“PORT”端口映射到了主机“HOST_PORT”后，即可在主机的浏览器中输入“127.0.0.1:HOST_PORT”来访问此网站。
+<p>这一设置主要是方便在主机访问虚拟机某一端口的服务，例如在虚拟机的“PORT”端口上搭建了web服务，并将“PORT”端口映射到了主机“HOST_PORT”后，即可在主机的浏览器中输入“127.0.0.1:HOST_PORT”来访问此网站。<br/>
 以Vmware Workstation 12 为例，在“编辑-虚拟网络编辑器-NAT设置”中，点击“添加”，输入需要映射到的目的主机端口，虚拟机的IP以及虚拟机的源端口，最后点击确定即可。</p>
 ]]></content>
   </entry>
