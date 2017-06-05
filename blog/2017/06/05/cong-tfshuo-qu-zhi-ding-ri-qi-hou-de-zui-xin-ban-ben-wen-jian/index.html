@@ -120,6 +120,112 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="cm">/*</span>
 </span><span class='line'><span class="cm"> 程序功能：按起始时间从TFS上获取某一路径下签入文件的最新版本    </span>
 </span><span class='line'><span class="cm"> 可选输入：起始时间（格式：2017-01-01 或 2017-01-01 10:10:10），默认为当天的0点  </span>
@@ -129,13 +235,16 @@
 </span><span class='line'><span class="k">using</span> <span class="nn">System.Configuration</span><span class="p">;</span>
 </span><span class='line'><span class="k">using</span> <span class="nn">Microsoft.TeamFoundation.Client</span><span class="p">;</span>
 </span><span class='line'><span class="k">using</span> <span class="nn">Microsoft.TeamFoundation.VersionControl.Client</span><span class="p">;</span>
-</span><span class='line'><span class="k">namespace</span> <span class="nn">TfsFetch</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Program</span><span class="p">{</span>
+</span><span class='line'><span class="k">namespace</span> <span class="nn">TfsFetch</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Program</span>
+</span><span class='line'>  <span class="p">{</span>
 </span><span class='line'>      <span class="c1">//private System.Net.NetworkCredential netCred;  </span>
 </span><span class='line'>      <span class="k">private</span> <span class="n">TfsTeamProjectCollection</span> <span class="n">tfsTeamProjCol</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">private</span> <span class="n">VersionControlServer</span> <span class="n">vcs</span><span class="p">;</span>
 </span><span class='line'>      <span class="c1">//private Workspace ws; </span>
-</span><span class='line'>      <span class="k">public</span> <span class="nf">Program</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">public</span> <span class="nf">Program</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
 </span><span class='line'>          <span class="kt">string</span> <span class="n">serverUrl</span> <span class="p">=</span> <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;serverUrl&quot;</span><span class="p">);</span>
 </span><span class='line'>          <span class="n">tfsTeamProjCol</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TfsTeamProjectCollection</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="n">serverUrl</span><span class="p">));</span>
 </span><span class='line'>          <span class="n">vcs</span> <span class="p">=</span> <span class="n">tfsTeamProjCol</span><span class="p">.</span><span class="n">GetService</span><span class="p">&lt;</span><span class="n">VersionControlServer</span><span class="p">&gt;();</span>
@@ -144,7 +253,110 @@
 </span><span class='line'>      <span class="c1">//获取签入文件的最新版本</span>
 </span><span class='line'>      <span class="c1">//startTime: 签入时间的最早边界</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">void</span> <span class="nf">GetLatestItems</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">startTime</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="kt">string</span> <span class="n">tfsVerPath</span> <span class="p">=</span> <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;tfsVerPath&quot;</span><span class="p">);</span>             <span class="n">ItemSet</span> <span class="n">itemSet</span> <span class="p">=</span> <span class="n">vcs</span><span class="p">.</span><span class="n">GetItems</span><span class="p">(</span><span class="n">tfsVerPath</span><span class="p">,</span> <span class="n">RecursionType</span><span class="p">.</span><span class="n">Full</span><span class="p">);</span>             <span class="kt">string</span> <span class="n">localRootPathWithDate</span> <span class="p">=</span>                 <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;localRootPath&quot;</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>                 <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyyMMdd&quot;</span><span class="p">);</span>             <span class="kt">string</span> <span class="n">histLocalRootpath</span> <span class="p">=</span> <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;histLocalRootpath&quot;</span><span class="p">);</span>             <span class="kt">string</span> <span class="n">histLocalRootpathWithDate</span> <span class="p">=</span> <span class="n">histLocalRootpath</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>                 <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyyMMdd_hhmmss&quot;</span><span class="p">);</span>             <span class="k">if</span> <span class="p">(</span><span class="n">Directory</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">localRootPathWithDate</span><span class="p">))</span>             <span class="c1">//这里的前提是，实际开发中每天最多发一个版本进行测试，所以如果当天已经下载过版本，则需要将当天已下载的版本移到历史版本库中，以最新下载的为准             {                 try                 {                     if(!Directory.Exists(histLocalRootpath))                     {                         Directory.CreateDirectory(histLocalRootpath);                     }                     Directory.Move(localRootPathWithDate, histLocalRootpathWithDate);                 }                 catch (Exception)                 {                     Console.WriteLine(&quot;Error: Moving folder failed&quot;);                 }             }              int dlCount = 0;             foreach(Item item in itemSet.Items)             {                 string excludedFolder =                     tfsVerPath + &quot;/&quot; +                     ConfigurationManager.AppSettings.Get(&quot;excludedSubFolder&quot;);                 if (item.CheckinDate &gt;= startTime &amp;&amp;                     item.ServerItem.LastIndexOf(excludedFolder) == -1                     )                 {                     Console.WriteLine(item.ServerItem);                     Console.Write(&quot;Check-in time: &quot; + item.CheckinDate);                     string localPath =                         localRootPathWithDate + &quot;/&quot; +                         item.ServerItem.Substring(tfsVerPath.Length);                     int folderLastIdx = localPath.LastIndexOf(&#39;/&#39;);                     string folderPath = localPath.Substring(0, folderLastIdx);                      if (! Directory.Exists(folderPath))                     {                         Directory.CreateDirectory(folderPath);                     }                     Console.Write(&quot;    &quot;);                     try                     {                         item.DownloadFile(localPath);                         Console.WriteLine(&quot;Type: File&quot;);                         dlCount++;                     }                     catch (Exception)                     {                         Console.Write(&quot;Type: Directory\n&quot;);                     }                     Console.WriteLine(&quot;&quot;);                 }             }             Console.WriteLine(&quot;\nDownloaded files count: &quot; + dlCount);         }          static void Main(string[] args)         {             string startTimeStr = DateTime.Now.ToString(&quot;yyyy-MM-dd&quot;) + &quot; 00:00:00&quot;;             DateTime startTime = DateTime.Parse(startTimeStr);             if (args.Length &lt; 1 || args[0] == &quot;/help&quot;)             {                 Console.WriteLine(                     &quot;Example:\n&quot; +                     &quot;\tTfsFetch [dateTime]\n&quot; +                     &quot;\tdateTime: 2017-01-01 || 2017-01-01 12:30:30\n\n&quot; +                     &quot;\tDefault start time: &quot; + startTimeStr + &quot;\n&quot;                     );             }             else if(args.Length &gt;= 1 &amp;&amp; args[0] != &quot;/help&quot;)             {                 switch (args.Length)                 {                     case 1:                         startTimeStr = args[0];                         break;                     case 2:                         startTimeStr = args[0] + &quot; &quot; + args[1];                         break;                     default:                         break;                 }              }             try             {                 startTime = DateTime.Parse(startTimeStr);             }             catch(Exception)             {                 Console.WriteLine(&quot;Error: Wrong time format&quot;);                 Console.ReadKey();                 return;             }             Console.WriteLine(&quot;Downloaded list:\n&quot;);             Program prog = new Program();             prog.GetLatestItems(startTime);              Console.ReadKey();         }     } } </span>
+</span><span class='line'>          <span class="kt">string</span> <span class="n">tfsVerPath</span> <span class="p">=</span> <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;tfsVerPath&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">ItemSet</span> <span class="n">itemSet</span> <span class="p">=</span> <span class="n">vcs</span><span class="p">.</span><span class="n">GetItems</span><span class="p">(</span><span class="n">tfsVerPath</span><span class="p">,</span> <span class="n">RecursionType</span><span class="p">.</span><span class="n">Full</span><span class="p">);</span>
+</span><span class='line'>          <span class="kt">string</span> <span class="n">localRootPathWithDate</span> <span class="p">=</span>
+</span><span class='line'>          <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;localRootPath&quot;</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>
+</span><span class='line'>          <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyyMMdd&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="kt">string</span> <span class="n">histLocalRootpath</span> <span class="p">=</span> <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;histLocalRootpath&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="kt">string</span> <span class="n">histLocalRootpathWithDate</span> <span class="p">=</span> <span class="n">histLocalRootpath</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>
+</span><span class='line'>          <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyyMMdd_hhmmss&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">Directory</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">localRootPathWithDate</span><span class="p">))</span>
+</span><span class='line'>          <span class="c1">//这里的前提是，实际开发中每天最多发一个版本进行测试，所以如果当天已经下载过版本，则需要将当天已下载的版本移到历史版本库中，以最新下载的为准</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="k">try</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(!</span><span class="n">Directory</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">histLocalRootpath</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">{</span>
+</span><span class='line'>                      <span class="n">Directory</span><span class="p">.</span><span class="n">CreateDirectory</span><span class="p">(</span><span class="n">histLocalRootpath</span><span class="p">);</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>                  <span class="n">Directory</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="n">localRootPathWithDate</span><span class="p">,</span> <span class="n">histLocalRootpathWithDate</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Error: Moving folder failed&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">dlCount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">foreach</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span> <span class="k">in</span> <span class="n">itemSet</span><span class="p">.</span><span class="n">Items</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="kt">string</span> <span class="n">excludedFolder</span> <span class="p">=</span>
+</span><span class='line'>              <span class="n">tfsVerPath</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>
+</span><span class='line'>              <span class="n">ConfigurationManager</span><span class="p">.</span><span class="n">AppSettings</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;excludedSubFolder&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">CheckinDate</span> <span class="p">&gt;=</span> <span class="n">startTime</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>              <span class="n">item</span><span class="p">.</span><span class="n">ServerItem</span><span class="p">.</span><span class="n">LastIndexOf</span><span class="p">(</span><span class="n">excludedFolder</span><span class="p">)</span> <span class="p">==</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">ServerItem</span><span class="p">);</span>
+</span><span class='line'>                  <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Check-in time: &quot;</span> <span class="p">+</span> <span class="n">item</span><span class="p">.</span><span class="n">CheckinDate</span><span class="p">);</span>
+</span><span class='line'>                  <span class="kt">string</span> <span class="n">localPath</span> <span class="p">=</span>
+</span><span class='line'>                  <span class="n">localRootPathWithDate</span> <span class="p">+</span> <span class="s">&quot;/&quot;</span> <span class="p">+</span>
+</span><span class='line'>                  <span class="n">item</span><span class="p">.</span><span class="n">ServerItem</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="n">tfsVerPath</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+</span><span class='line'>                  <span class="kt">int</span> <span class="n">folderLastIdx</span> <span class="p">=</span> <span class="n">localPath</span><span class="p">.</span><span class="n">LastIndexOf</span><span class="p">(</span><span class="sc">&#39;/&#39;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="kt">string</span> <span class="n">folderPath</span> <span class="p">=</span> <span class="n">localPath</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">folderLastIdx</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">if</span> <span class="p">(!</span> <span class="n">Directory</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">folderPath</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">{</span>
+</span><span class='line'>                      <span class="n">Directory</span><span class="p">.</span><span class="n">CreateDirectory</span><span class="p">(</span><span class="n">folderPath</span><span class="p">);</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>                  <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;    &quot;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">try</span>
+</span><span class='line'>                  <span class="p">{</span>
+</span><span class='line'>                      <span class="n">item</span><span class="p">.</span><span class="n">DownloadFile</span><span class="p">(</span><span class="n">localPath</span><span class="p">);</span>
+</span><span class='line'>                      <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Type: File&quot;</span><span class="p">);</span>
+</span><span class='line'>                      <span class="n">dlCount</span><span class="p">++;</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>                  <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
+</span><span class='line'>                  <span class="p">{</span>
+</span><span class='line'>                      <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Type: Directory\n&quot;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>                  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;\nDownloaded files count: &quot;</span> <span class="p">+</span> <span class="n">dlCount</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="kt">string</span> <span class="n">startTimeStr</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot; 00:00:00&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">DateTime</span> <span class="n">startTime</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">startTimeStr</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Length</span> <span class="p">&lt;</span> <span class="m">1</span> <span class="p">||</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">==</span> <span class="s">&quot;/help&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span>
+</span><span class='line'>              <span class="s">&quot;Example:\n&quot;</span> <span class="p">+</span>
+</span><span class='line'>              <span class="s">&quot;\tTfsFetch [dateTime]\n&quot;</span> <span class="p">+</span>
+</span><span class='line'>              <span class="s">&quot;\tdateTime: 2017-01-01 || 2017-01-01 12:30:30\n\n&quot;</span> <span class="p">+</span>
+</span><span class='line'>              <span class="s">&quot;\tDefault start time: &quot;</span> <span class="p">+</span> <span class="n">startTimeStr</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span>
+</span><span class='line'>              <span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;=</span> <span class="m">1</span> <span class="p">&amp;&amp;</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">!=</span> <span class="s">&quot;/help&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="k">switch</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                  <span class="k">case</span> <span class="m">1</span><span class="p">:</span>
+</span><span class='line'>                      <span class="n">startTimeStr</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span><span class='line'>                      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                  <span class="k">case</span> <span class="m">2</span><span class="p">:</span>
+</span><span class='line'>                      <span class="n">startTimeStr</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">+</span> <span class="s">&quot; &quot;</span> <span class="p">+</span> <span class="n">args</span><span class="p">[</span><span class="m">1</span><span class="p">];</span>
+</span><span class='line'>                      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                  <span class="k">default</span><span class="p">:</span>
+</span><span class='line'>                      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">try</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">startTime</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">startTimeStr</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">catch</span><span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Error: Wrong time format&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Downloaded list:\n&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">Program</span> <span class="n">prog</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Program</span><span class="p">();</span>
+</span><span class='line'>          <span class="n">prog</span><span class="p">.</span><span class="n">GetLatestItems</span><span class="p">(</span><span class="n">startTime</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
